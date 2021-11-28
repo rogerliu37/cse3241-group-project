@@ -7,5 +7,6 @@
 </head>
 <body>
         <h1><?php echo 'COVID Vaccine Registration'; ?></h1>
+        <a href="register.php">Page 2</a>
 </body>
 </html>
