@@ -109,6 +109,30 @@
     echo "<br>";
     echo $manufacturer;
     ?>
+    <?php
+    $servername = "localhost";
+    $username = "root";
+    $password = "0307";
+    $dbname = "vaccine";
+
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $dbname);
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    $sql = "INSERT INTO Customer(Cell_num, NumberOfDoses, Customer_name, Manufacturer, Age) 
+            VALUES('$phone', '$dose', '$name', '$manufacturer', '$age')";
+
+    if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+    $conn->close();
+    
+    ?>
 
 </body>
 
