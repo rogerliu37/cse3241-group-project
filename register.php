@@ -16,6 +16,7 @@
     $nameErr = $ageErr = $phoneErr = $doseErr = $manufacturerErr = "";
     $name = $phone = $manufacturer = "";
     $dose = $age = 0;
+    $status = "incomplete";
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (empty($_POST["name"])) {
@@ -111,28 +112,32 @@
     echo "<br>";
     ?>
     <?php
-    $servername = "localhost";
-    $username = "root";
-    $password = "0307";
-    $dbname = "vaccine";
+    if (strlen($nameErr) == 0 and strlen($ageErr) == 0 and strlen($phoneErr) == 0 and strlen($doseErr) == 0 and strlen($manufacturerErr) == 0) {
+        $servername = "localhost";
+        $username = "root";
+        $password = "Ruijie0307!";
+        $dbname = "vaccine";
 
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+        // Create connection
+        $conn = new mysqli($servername, $username, $password, $dbname);
+        // Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
 
-    $sql = "INSERT INTO Customer(Cell_num, NumberOfDoses, Customer_name, Manufacturer, Age) 
-            VALUES('$phone', '$dose', '$name', '$manufacturer', '$age')";
+        $sql = "INSERT INTO Customer(Cell_num, NumberOfDoses, Customer_name, Manufacturer, Status, Age) 
+            VALUES('$phone', '$dose', '$name', '$manufacturer', '$status', '$age')";
 
-    if ($conn->query($sql) === TRUE) {
-        echo "New record created successfully";
+        if ($conn->query($sql) === TRUE) {
+            echo "New record created successfully";
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
+        $conn->close();
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "No table entry made";
     }
-    $conn->close();
-    
+
     ?>
 
 </body>
