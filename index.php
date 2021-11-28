@@ -10,5 +10,7 @@
         <a href="register.php">Register</a>
         <br> 
         <a href="status.php">Check Status of Vaccine</a>
+        <br> 
+        <a href="status.php">Administrator View</a>
 </body>
 </html>
