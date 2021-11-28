@@ -1,180 +1,110 @@
-<?php
-	
-$showAlert = false;
-$showError = false;
-$exists=false;
-	
-if($_SERVER["REQUEST_METHOD"] == "POST") {
-	
-	// Include file which makes the
-	// Database Connection.
-	include 'dbconnect.php';
-	
-	$username = $_POST["username"];
-	$password = $_POST["password"];
-	$cpassword = $_POST["cpassword"];
-			
-	
-	$sql = "Select * from users where username='$username'";
-	
-	$result = mysqli_query($conn, $sql);
-	
-	$num = mysqli_num_rows($result);
-	
-	// This sql query is use to check if
-	// the username is already present
-	// or not in our Database
-	if($num == 0) {
-		if(($password == $cpassword) && $exists==false) {
-	
-			$hash = password_hash($password,
-								PASSWORD_DEFAULT);
-				
-			// Password Hashing is used here.
-			$sql = "INSERT INTO `users` ( `username`,
-				`password`, `date`) VALUES ('$username',
-				'$hash', current_timestamp())";
-	
-			$result = mysqli_query($conn, $sql);
-	
-			if ($result) {
-				$showAlert = true;
-			}
-		}
-		else {
-			$showError = "Passwords do not match";
-		}	
-	}// end if
-	
-if($num>0)
-{
-	$exists="Username not available";
-}
-	
-}//end if
-	
-?>
-	
-<!doctype html>
-	
-<html lang="en">
+<!DOCTYPE HTML>
+<html>
 
 <head>
-	
-	<!-- Required meta tags -->
-	<meta charset="utf-8">
-	<meta name="viewport" content=
-		"width=device-width, initial-scale=1,
-		shrink-to-fit=no">
-	
-	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" href=
-"https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-		integrity=
-"sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
-		crossorigin="anonymous">
+    <style>
+        .error {
+            color: #FF0000;
+        }
+    </style>
 </head>
-	
-<body>
-	
-<?php
-	
-	if($showAlert) {
-	
-		echo ' <div class="alert alert-success
-			alert-dismissible fade show" role="alert">
-	
-			<strong>Success!</strong> Your account is
-			now created and you can login.
-			<button type="button" class="close"
-				data-dismiss="alert" aria-label="Close">
-				<span aria-hidden="true">×</span>
-			</button>
-		</div> ';
-	}
-	
-	if($showError) {
-	
-		echo ' <div class="alert alert-danger
-			alert-dismissible fade show" role="alert">
-		<strong>Error!</strong> '. $showError.'
-	
-	<button type="button" class="close"
-			data-dismiss="alert aria-label="Close">
-			<span aria-hidden="true">×</span>
-	</button>
-	</div> ';
-}
-		
-	if($exists) {
-		echo ' <div class="alert alert-danger
-			alert-dismissible fade show" role="alert">
-	
-		<strong>Error!</strong> '. $exists.'
-		<button type="button" class="close"
-			data-dismiss="alert" aria-label="Close">
-			<span aria-hidden="true">×</span>
-		</button>
-	</div> ';
-	}
 
-?>
-	
-<div class="container my-4 ">
-	
-	<h1 class="text-center">Signup Here</h1>
-	<form action="signup.php" method="post">
-	
-		<div class="form-group">
-			<label for="username">Username</label>
-		<input type="text" class="form-control" id="username"
-			name="username" aria-describedby="emailHelp">	
-		</div>
-	
-		<div class="form-group">
-			<label for="password">Password</label>
-			<input type="password" class="form-control"
-			id="password" name="password">
-		</div>
-	
-		<div class="form-group">
-			<label for="cpassword">Confirm Password</label>
-			<input type="password" class="form-control"
-				id="cpassword" name="cpassword">
-	
-			<small id="emailHelp" class="form-text text-muted">
-			Make sure to type the same password
-			</small>
-		</div>	
-	
-		<button type="submit" class="btn btn-primary">
-		SignUp
-		</button>
-	</form>
-</div>
-	
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-	
-<script src="
-https://code.jquery.com/jquery-3.5.1.slim.min.js"
-	integrity="
-sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-	crossorigin="anonymous">
-</script>
-	
-<script src="
-https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-	integrity=
-"sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-	crossorigin="anonymous">
-</script>
-	
-<script src="
-https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-	integrity=
-"sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-	crossorigin="anonymous">
-</script>
+<body>
+
+    <?php
+    // define variables and set to empty values
+    $nameErr = $emailErr = $genderErr = $websiteErr = "";
+    $name = $email = $gender = $comment = $website = "";
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (empty($_POST["name"])) {
+            $nameErr = "Name is required";
+        } else {
+            $name = test_input($_POST["name"]);
+            // check if name only contains letters and whitespace
+            if (!preg_match("/^[a-zA-Z-' ]*$/", $name)) {
+                $nameErr = "Only letters and white space allowed";
+            }
+        }
+
+        if (empty($_POST["email"])) {
+            $emailErr = "Email is required";
+        } else {
+            $email = test_input($_POST["email"]);
+            // check if e-mail address is well-formed
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $emailErr = "Invalid email format";
+            }
+        }
+
+        if (empty($_POST["website"])) {
+            $website = "";
+        } else {
+            $website = test_input($_POST["website"]);
+            // check if URL address syntax is valid (this regular expression also allows dashes in the URL)
+            if (!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i", $website)) {
+                $websiteErr = "Invalid URL";
+            }
+        }
+
+        if (empty($_POST["comment"])) {
+            $comment = "";
+        } else {
+            $comment = test_input($_POST["comment"]);
+        }
+
+        if (empty($_POST["gender"])) {
+            $genderErr = "Gender is required";
+        } else {
+            $gender = test_input($_POST["gender"]);
+        }
+    }
+
+    function test_input($data)
+    {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
+    }
+    ?>
+
+    <h2>COVID Register</h2>
+    <p><span class="error">* required field</span></p>
+    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+        Name: <input type="text" name="name" value="<?php echo $name; ?>">
+        <span class="error">* <?php echo $nameErr; ?></span>
+        <br><br>
+        E-mail: <input type="text" name="email" value="<?php echo $email; ?>">
+        <span class="error">* <?php echo $emailErr; ?></span>
+        <br><br>
+        Website: <input type="text" name="website" value="<?php echo $website; ?>">
+        <span class="error"><?php echo $websiteErr; ?></span>
+        <br><br>
+        Comment: <textarea name="comment" rows="5" cols="40"><?php echo $comment; ?></textarea>
+        <br><br>
+        Gender:
+        <input type="radio" name="gender" <?php if (isset($gender) && $gender == "female") echo "checked"; ?> value="female">Female
+        <input type="radio" name="gender" <?php if (isset($gender) && $gender == "male") echo "checked"; ?> value="male">Male
+        <input type="radio" name="gender" <?php if (isset($gender) && $gender == "other") echo "checked"; ?> value="other">Other
+        <span class="error">* <?php echo $genderErr; ?></span>
+        <br><br>
+        <input type="submit" name="submit" value="Submit">
+    </form>
+
+    <?php
+    echo "<h2>Your Input:</h2>";
+    echo $name;
+    echo "<br>";
+    echo $email;
+    echo "<br>";
+    echo $website;
+    echo "<br>";
+    echo $comment;
+    echo "<br>";
+    echo $gender;
+    ?>
+
 </body>
+
 </html>
