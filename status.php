@@ -51,26 +51,29 @@
     echo "<br>";
     ?>
     <?php
-    $servername = "localhost";
-    $username = "root";
-    $password = "Ruijie0307!";
-    $dbname = "vaccine";
+    if (strlen($phoneErr) == 0) {
+        $servername = "localhost";
+        $username = "root";
+        $password = "Ruijie0307!";
+        $dbname = "vaccine";
 
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+        // Create connection
+        $conn = new mysqli($servername, $username, $password, $dbname);
+        // Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        $sql = "select * FROM Customer where Cell_num = '$phone'";
+        $result = mysqli_query($conn, $sql);
+        while ($row = mysqli_fetch_array($result)) {
+            echo $row['Status'] . "<br>";
+        }
+        if (mysqli_num_rows($result) == 0) {
+            echo "No vaccination information found.";
+        }
     }
 
-    $sql = "select * FROM Customer where Cell_num = '$phone'";
-    $result = mysqli_query($conn, $sql);
-    while ($row = mysqli_fetch_array($result)) {
-        echo $row['Status'] . "<br>";
-    }
-    if (mysqli_num_rows($result) == 0) {
-        echo "No vaccination information found.";
-    }
     ?>
 
 </body>
