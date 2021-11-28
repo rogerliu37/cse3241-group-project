@@ -13,8 +13,9 @@
 
     <?php
     // define variables and set to empty values
-    $nameErr = $ageErr = $phoneErr = "";
-    $name = $age = $phone = "";
+    $nameErr = $ageErr = $phoneErr = $doseErr = $manufacturerErr = "";
+    $name = $phone = $manufacturer = "";
+    $dose = $age = 0;
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (empty($_POST["name"])) {
@@ -29,26 +30,41 @@
 
         if (empty($_POST["age"])) {
             $ageErr = "Age is required";
-        } 
-        else {
+        } else {
             $age = test_input($_POST["age"]);
-            // check if name only contains letters and whitespace
-            if (!preg_match("/^[0-9]{1,10}$/", $age)) {
+            if (!preg_match("/^[0-9]{1,3}$/", $age)) {
                 $ageErr = "Invalid Age";
             }
         }
 
         if (empty($_POST["phone"])) {
             $phoneErr = "Phone is required";
-        } 
-        else {
+        } else {
             $phone = test_input($_POST["phone"]);
-            // check if name only contains letters and whitespace
             if (!preg_match("/^[0-9]{10,10}$/", $phone)) {
                 $phoneErr = "Invalid Phone";
             }
         }
 
+        if (empty($_POST["dose"])) {
+            $doseErr = "Dose is required";
+        } else {
+            $dose = test_input($_POST["dose"]);
+
+            if (!preg_match("/^[1-2]{1,1}$/", $dose)) {
+                $doseErr = "Invalid Dose";
+            }
+        }
+
+        if (empty($_POST["manufacturer"])) {
+            $manufacturerErr = "Manufacturer is required";
+        } else {
+            $manufacturer = test_input($_POST["manufacturer"]);
+
+            if (strcmp($manufacturer, "J&J") !== 0 and strcmp($manufacturer, "Moderna") !== 0 and strcmp($manufacturer, "Pfizer") !== 0) {
+                $manufacturerErr = "Invalid Manufacturer";
+            }
+        }
     }
 
     function test_input($data)
@@ -66,13 +82,17 @@
         Name: <input type="text" name="name" value="<?php echo $name; ?>">
         <span class="error">* <?php echo $nameErr; ?></span>
         <br><br>
-        Age: <input type="text" name="age" value="<?php echo $age; ?>">
+        Age: <input type="number" name="age" value="<?php echo $age; ?>">
         <span class="error">* <?php echo $ageErr; ?></span>
         <br><br>
         phone: <input type="text" name="phone" value="<?php echo $phone; ?>">
         <span class="error"><?php echo $phoneErr; ?></span>
         <br><br>
-
+        dose: <input type="number" name="dose" value="<?php echo $dose; ?>">
+        <span class="error"><?php echo $doseErr; ?></span>
+        <br><br>
+        manufacturer: <input type="text" name="manufacturer" value="<?php echo $manufacturer; ?>">
+        <span class="error"><?php echo $manufacturerErr; ?></span>
         <br><br>
         <input type="submit" name="submit" value="Submit">
     </form>
@@ -84,6 +104,10 @@
     echo $age;
     echo "<br>";
     echo $phone;
+    echo "<br>";
+    echo $dose;
+    echo "<br>";
+    echo $manufacturer;
     ?>
 
 </body>
