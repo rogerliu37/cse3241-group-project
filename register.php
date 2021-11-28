@@ -108,6 +108,7 @@
     echo $dose;
     echo "<br>";
     echo $manufacturer;
+    echo "<br>";
     ?>
     <?php
     $servername = "localhost";
