@@ -11,6 +11,6 @@
         <br> 
         <a href="status.php">Check Status of Vaccine</a>
         <br> 
-        <a href="login.php">Administrator View</a>
+        <a href="login.php">Administrator Login</a>
 </body>
 </html>

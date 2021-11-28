@@ -36,7 +36,7 @@
     }
     ?>
 
-    <h2>COVID Status Checker</h2>
+    <h2>Adniministrator Login</h2>
     <p><span class="error">* required field</span></p>
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
         id: <input type="text" name="id" value="<?php echo $id; ?>">
@@ -63,13 +63,15 @@
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql = "select * FROM Customer where Cell_num = '$id'";
+    $sql = "select * FROM Administrator where Admini_id = '$id'";
     $result = mysqli_query($conn, $sql);
-    while ($row = mysqli_fetch_array($result)) {
-        echo $row['Status'] . "<br>";
-    }
-    if (mysqli_num_rows($result) == 0) {
-        echo "No vaccination information found.";
+    if (mysqli_num_rows($result) != 0) {
+        echo "Admin account found.";
+        echo '<br>
+        <a href="admin.php">Administrator View</a>';
+
+    } else {
+        echo "No Admin account found.";
     }
     ?>
 
