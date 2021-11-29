@@ -11,6 +11,6 @@
         <br>
         <a href="queries.php">Generate Reports</a>
         <br>
-        <a href="getbatch.php">Distribute Vaccines</a>
+        <a href="distribute.php">Distribute Vaccines</a>
 </body>
 </html>

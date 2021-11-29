@@ -4,8 +4,8 @@
     <form name="form" method="post">
         <input type="submit" name="button1" value="1 shot" />
         <input type="submit" name="button2" value="Moderna fully vaccinated" />
-        <input type="submit" name="button2" value="Pfizer fully vaccinated" />
-        <input type="submit" name="button2" value="J&J fully vaccinated" />
+        <input type="submit" name="button3" value="Pfizer fully vaccinated" />
+        <input type="submit" name="button4" value="J&J fully vaccinated" />
        
     </form>
 </body>
