@@ -15,6 +15,8 @@
     // define variables and set to empty values
     $nameErr = $ageErr = $phoneErr = $doseErr = $manufacturerErr = "";
     $name = $phone = $manufacturer = "";
+    $optional = "";
+    $optionalErr = "";
     $dose = $age = 0;
     $status = "incomplete";
 
@@ -52,7 +54,7 @@
         } else {
             $dose = test_input($_POST["dose"]);
 
-            if (!preg_match("/^[1-2]{1,3}$/", $dose)) {
+            if (!preg_match("/^[1-3]{1,3}$/", $dose)) {
                 $doseErr = "Invalid Dose";
             }
         }
@@ -65,6 +67,15 @@
             if (strcmp($manufacturer, "Johnson and Johnson") !== 0 and strcmp($manufacturer, "Moderna") !== 0 and strcmp($manufacturer, "Pfizer") !== 0) {
                 $manufacturerErr = "Invalid Manufacturer";
             }
+
+            if (strcmp($manufacturer, "Johnson and Johnson") === 0 and $dose > 1) {
+                $manufacturerErr = "You cannot have more than 1 dose of J&J";
+            }
+        }
+
+        $optional = test_input($_POST["optional"]);
+        if (strcmp($optional, "Yes") !== 0) {
+            $optionalErr = "You are not eligible for a vaccine;";
         }
     }
 
@@ -92,6 +103,9 @@
         dose: <input type="number" name="dose" value="<?php echo $dose; ?>">
         <span class="error"><?php echo $doseErr; ?></span>
         <br><br>
+        Are  you eligible for booster if applicable? (Type "Yes" if not getting a booster): <input type="text" name="optional" value="<?php echo $optional; ?>">
+        <span class="error"><?php echo $optionalErr; ?></span>
+        <br><br>
         manufacturer: <input type="text" name="manufacturer" value="<?php echo $manufacturer; ?>">
         <span class="error"><?php echo $manufacturerErr; ?></span>
         <br><br>
@@ -112,7 +126,7 @@
     echo "<br>";
     ?>
     <?php
-    if (strlen($nameErr) == 0 and strlen($ageErr) == 0 and strlen($phoneErr) == 0 and strlen($doseErr) == 0 and strlen($manufacturerErr) == 0) {
+    if (strlen($nameErr) == 0 and strlen($ageErr) == 0 and strlen($phoneErr) == 0 and strlen($doseErr) == 0 and strlen($manufacturerErr) == 0 and strlen($optionalErr) == 0) {
         $servername = "localhost";
         $username = "root";
         $password = "Ruijie0307!";
