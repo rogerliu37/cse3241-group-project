@@ -25,14 +25,15 @@ if (isset($_POST['button1'])) {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql = "select * FROM VaccineBatch";
+    $sql = "select * FROM VaccineBatch;";
     $result = mysqli_query($conn, $sql);
     while ($row = mysqli_fetch_array($result)) {
+        // echo $row[0] . " ";
         echo "Tracking ID: " . $row[0]  . "   ";
         echo "Manufacturer: " . $row[1]  . "   ";
         echo "Quantity: " .$row[2]  . "   ";
         echo "Expiration Date: " . $row[3]  . "   ";
-        echo "<br";
+        echo "<br>";
     }
     if (mysqli_num_rows($result) == 0) {
         echo "No vaccination information found.";
@@ -52,16 +53,31 @@ if (isset($_POST['button2'])) {
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
+    echo "Available Vaccines" . "<br>";
+    $sql = 'select * FROM VaccineBatch where Manufacturer = "Pfizer" and ExpirationDate >= CURDATE();';
 
-    $sql = 'select * FROM VaccineBatch where Manufacturer = "Pfizer"';
-    
     $result = mysqli_query($conn, $sql);
     while ($row = mysqli_fetch_array($result)) {
         echo "Tracking ID: " . $row[0]  . "   ";
         echo "Manufacturer: " . $row[1]  . "   ";
         echo "Quantity: " .$row[2]  . "   ";
         echo "Expiration Date: " . $row[3]  . "   ";
-        echo "<br";
+        echo "<br>";
+    }
+    if (mysqli_num_rows($result) == 0) {
+        echo "No vaccination information found.";
+    }
+    echo "<br>";
+    echo "Expired Vaccines" . "<br>";
+    $sql = 'select * FROM VaccineBatch where Manufacturer = "Pfizer" and ExpirationDate < CURDATE();';
+
+    $result = mysqli_query($conn, $sql);
+    while ($row = mysqli_fetch_array($result)) {
+        echo "Tracking ID: " . $row[0]  . "   ";
+        echo "Manufacturer: " . $row[1]  . "   ";
+        echo "Quantity: " .$row[2]  . "   ";
+        echo "Expiration Date: " . $row[3]  . "   ";
+        echo "<br>";
     }
     if (mysqli_num_rows($result) == 0) {
         echo "No vaccination information found.";
@@ -70,12 +86,94 @@ if (isset($_POST['button2'])) {
 
 if (isset($_POST['button3'])) {
 
-    echo ("You clicked button three!");
+    $servername = "localhost";
+    $username = "root";
+    $password = "Ruijie0307!";
+    $dbname = "vaccine";
+
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $dbname);
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    echo "Available Vaccines" . "<br>";
+    $sql = 'select * FROM VaccineBatch where Manufacturer = "Johnson and Johnson" and ExpirationDate >= CURDATE();';
+
+    $result = mysqli_query($conn, $sql);
+    while ($row = mysqli_fetch_array($result)) {
+        echo "Tracking ID: " . $row[0]  . "   ";
+        echo "Manufacturer: " . $row[1]  . "   ";
+        echo "Quantity: " .$row[2]  . "   ";
+        echo "Expiration Date: " . $row[3]  . "   ";
+        echo "<br>";
+    }
+    if (mysqli_num_rows($result) == 0) {
+        echo "No vaccination information found.";
+    }
+    echo "<br>";
+    echo "Expired Vaccines" . "<br>";
+    $sql = 'select * FROM VaccineBatch where Manufacturer = "Johnson and Johnson" and ExpirationDate < CURDATE();';
+
+    $result = mysqli_query($conn, $sql);
+    while ($row = mysqli_fetch_array($result)) {
+        echo "Tracking ID: " . $row[0]  . "   ";
+        echo "Manufacturer: " . $row[1]  . "   ";
+        echo "Quantity: " .$row[2]  . "   ";
+        echo "Expiration Date: " . $row[3]  . "   ";
+        echo "<br>";
+    }
+    
+    if (mysqli_num_rows($result) == 0) {
+        echo "No vaccination information found.";
+    }
 } //if isset
 
 if (isset($_POST['button4'])) {
 
-    echo ("You clicked button four!");
+    $servername = "localhost";
+    $username = "root";
+    $password = "Ruijie0307!";
+    $dbname = "vaccine";
+
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $dbname);
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    echo "Available Vaccines" . "<br>";
+    $sql = 'select * FROM VaccineBatch where Manufacturer = "Moderna" and ExpirationDate >= CURDATE();';
+
+    $result = mysqli_query($conn, $sql);
+    while ($row = mysqli_fetch_array($result)) {
+        echo "Tracking ID: " . $row[0]  . "   ";
+        echo "Manufacturer: " . $row[1]  . "   ";
+        echo "Quantity: " .$row[2]  . "   ";
+        echo "Expiration Date: " . $row[3]  . "   ";
+        echo "<br>";
+    }
+    if (mysqli_num_rows($result) == 0) {
+        echo "No vaccination information found.";
+    }
+    echo "<br>";
+    echo "Expired Vaccines" . "<br>";
+    $sql = 'select * FROM VaccineBatch where Manufacturer = "Moderna" and ExpirationDate < CURDATE();';
+    
+    $result = mysqli_query($conn, $sql);
+    while ($row = mysqli_fetch_array($result)) {
+        echo "Tracking ID: " . $row[0]  . "   ";
+        echo "Manufacturer: " . $row[1]  . "   ";
+        echo "Quantity: " .$row[2]  . "   ";
+        echo "Expiration Date: " . $row[3]  . "   ";
+        echo "<br>";
+    }
+
+    if (mysqli_num_rows($result) == 0) {
+        echo "No vaccination information found.";
+    }
 } //if isset
 
 ?>
