@@ -15,7 +15,7 @@ if (isset($_POST['button1'])) {
 
     $servername = "localhost";
     $username = "root";
-    $password = "Ruijie0307!";
+    $password = "mysql";
     $dbname = "vaccine";
 
     // Create connection
@@ -39,7 +39,7 @@ if (isset($_POST['button2'])) {
 
     $servername = "localhost";
     $username = "root";
-    $password = "Ruijie0307!";
+    $password = "mysql";
     $dbname = "vaccine";
 
     // Create connection
@@ -63,7 +63,7 @@ if (isset($_POST['button3'])) {
 
     $servername = "localhost";
     $username = "root";
-    $password = "Ruijie0307!";
+    $password = "mysql";
     $dbname = "vaccine";
 
     // Create connection
@@ -87,7 +87,7 @@ if (isset($_POST['button4'])) {
 
     $servername = "localhost";
     $username = "root";
-    $password = "Ruijie0307!";
+    $password = "mysql";
     $dbname = "vaccine";
 
     // Create connection

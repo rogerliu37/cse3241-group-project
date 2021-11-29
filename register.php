@@ -129,7 +129,7 @@
     if (strlen($nameErr) == 0 and strlen($ageErr) == 0 and strlen($phoneErr) == 0 and strlen($doseErr) == 0 and strlen($manufacturerErr) == 0 and strlen($optionalErr) == 0) {
         $servername = "localhost";
         $username = "root";
-        $password = "Ruijie0307!";
+        $password = "mysql";
         $dbname = "vaccine";
 
         // Create connection

@@ -54,7 +54,7 @@
     if (strlen($phoneErr) == 0) {
         $servername = "localhost";
         $username = "root";
-        $password = "Ruijie0307!";
+        $password = "mysql";
         $dbname = "vaccine";
 
         // Create connection

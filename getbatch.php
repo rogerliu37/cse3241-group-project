@@ -111,7 +111,7 @@
     if (strlen($doseErr) == 0 and strlen($manufacturerErr) == 0 and strlen($dateErr) == 0) {
         $servername = "localhost";
         $username = "root";
-        $password = "Ruijie0307!";
+        $password = "mysql";
         $dbname = "vaccine";
 
         // Create connection
