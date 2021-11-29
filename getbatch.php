@@ -9,50 +9,45 @@
     </style>
 </head>
 
+
 <body>
 
     <?php
+    /**
+     * Check if the value is a valid date
+     *
+     * @param mixed $value
+     *
+     * @return boolean
+     */
+    function isDate($value)
+    {
+        if (!$value) {
+            return false;
+        }
+
+        try {
+            new \DateTime($value);
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
     // define variables and set to empty values
-    $nameErr = $ageErr = $phoneErr = $doseErr = $manufacturerErr = "";
-    $name = $phone = $manufacturer = "";
-    $dose = $age = 0;
+    $doseErr = $manufacturerErr = $dateErr = "";
+    $manufacturer = "";
+    $dose = 0;
+    $trackingid = rand(0, 100000);
     $status = "incomplete";
-
+    $date = "";
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if (empty($_POST["name"])) {
-            $nameErr = "Name is required";
-        } else {
-            $name = test_input($_POST["name"]);
-            // check if name only contains letters and whitespace
-            if (!preg_match("/^[a-zA-Z-' ]*$/", $name)) {
-                $nameErr = "Only letters and white space allowed";
-            }
-        }
-
-        if (empty($_POST["age"])) {
-            $ageErr = "Age is required";
-        } else {
-            $age = test_input($_POST["age"]);
-            if (!preg_match("/^[0-9]{1,3}$/", $age)) {
-                $ageErr = "Invalid Age";
-            }
-        }
-
-        if (empty($_POST["phone"])) {
-            $phoneErr = "Phone is required";
-        } else {
-            $phone = test_input($_POST["phone"]);
-            if (!preg_match("/^[0-9]{10,10}$/", $phone)) {
-                $phoneErr = "Invalid Phone";
-            }
-        }
 
         if (empty($_POST["dose"])) {
             $doseErr = "Dose is required";
         } else {
             $dose = test_input($_POST["dose"]);
 
-            if (!preg_match("/^[1-2]{1,3}$/", $dose)) {
+            if (!preg_match("/^[0-9]{1,3}$/", $dose)) {
                 $doseErr = "Invalid Dose";
             }
         }
@@ -66,6 +61,15 @@
                 $manufacturerErr = "Invalid Manufacturer";
             }
         }
+        if (empty($_POST["date"])) {
+            $dateErr = "Date is required";
+        } else {
+            $date = test_input($_POST["date"]);
+
+            if (!isDate($_POST["date"])) {
+                $dateErr = "Invalid Date";
+            }
+        }
     }
 
     function test_input($data)
@@ -77,42 +81,34 @@
     }
     ?>
 
-    <h2>COVID Register</h2>
+    <h2>Request Batch</h2>
     <p><span class="error">* required field</span></p>
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-        Name: <input type="text" name="name" value="<?php echo $name; ?>">
-        <span class="error">* <?php echo $nameErr; ?></span>
-        <br><br>
-        Age: <input type="number" name="age" value="<?php echo $age; ?>">
-        <span class="error">* <?php echo $ageErr; ?></span>
-        <br><br>
-        phone: <input type="text" name="phone" value="<?php echo $phone; ?>">
-        <span class="error"><?php echo $phoneErr; ?></span>
-        <br><br>
         dose: <input type="number" name="dose" value="<?php echo $dose; ?>">
         <span class="error"><?php echo $doseErr; ?></span>
         <br><br>
         manufacturer: <input type="text" name="manufacturer" value="<?php echo $manufacturer; ?>">
         <span class="error"><?php echo $manufacturerErr; ?></span>
         <br><br>
+        expiration date: <input type="text" name="date" value="<?php echo $date; ?>">
+        <span class="error"><?php echo $dateErr; ?></span>
+        <br><br>
         <input type="submit" name="submit" value="Submit">
     </form>
 
     <?php
     echo "<h2>Your Input:</h2>";
-    echo $name;
-    echo "<br>";
-    echo $age;
-    echo "<br>";
-    echo $phone;
+    echo $trackingid;
     echo "<br>";
     echo $dose;
     echo "<br>";
     echo $manufacturer;
     echo "<br>";
+    echo $date;
+    echo "<br>";
     ?>
     <?php
-    if (strlen($nameErr) == 0 and strlen($ageErr) == 0 and strlen($phoneErr) == 0 and strlen($doseErr) == 0 and strlen($manufacturerErr) == 0) {
+    if (strlen($doseErr) == 0 and strlen($manufacturerErr) == 0 and strlen($dateErr) == 0) {
         $servername = "localhost";
         $username = "root";
         $password = "Ruijie0307!";
@@ -125,8 +121,8 @@
             die("Connection failed: " . $conn->connect_error);
         }
 
-        $sql = "INSERT INTO Customer(Cell_num, NumberOfDoses, Customer_name, Manufacturer, Status, Age) 
-            VALUES('$phone', '$dose', '$name', '$manufacturer', '$status', '$age')";
+        $sql = "INSERT INTO VaccineBatch(TrackingNumber, Manufacturer, Quantity, ExpirationDate) 
+            VALUES('$trackingid', '$manufacturer', '$dose', '$date')";
 
         if ($conn->query($sql) === TRUE) {
             echo "New record created successfully";

@@ -7,10 +7,10 @@
 </head>
 <body>
         <h1><?php echo 'COVID Vaccine Registration'; ?></h1>
-        <a href="register.php">Register</a>
-        <br> 
-        <a href="status.php">Check Status of Vaccine</a>
-        <br> 
-        <a href="login.php">Administrator Login</a>
+        <a href="getbatch.php">Request Vaccine Batches</a>
+        <br>
+        <a href="queries.php">Generate Reports</a>
+        <br>
+        <a href="getbatch.php">Distribute Vaccines</a>
 </body>
 </html>
