@@ -49,15 +49,11 @@
             }
         }
 
-        if (empty($_POST["dose"])) {
-            $doseErr = "Dose is required";
-        } else {
             $dose = test_input($_POST["dose"]);
 
-            if (!preg_match("/^[1-3]{1,3}$/", $dose)) {
+            if (!preg_match("/^[0-2]{1,1}$/", $dose)) {
                 $doseErr = "Invalid Dose";
             }
-        }
 
         if (empty($_POST["manufacturer"])) {
             $manufacturerErr = "Manufacturer is required";
@@ -100,7 +96,7 @@
         phone: <input type="text" name="phone" value="<?php echo $phone; ?>">
         <span class="error"><?php echo $phoneErr; ?></span>
         <br><br>
-        dose: <input type="number" name="dose" value="<?php echo $dose; ?>">
+        number of doses: <input type="number" name="dose" value="<?php echo $dose; ?>">
         <span class="error"><?php echo $doseErr; ?></span>
         <br><br>
         Are  you eligible for booster if applicable? (Type "Yes" if not getting a booster): <input type="text" name="optional" value="<?php echo $optional; ?>">

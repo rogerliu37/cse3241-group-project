@@ -12,5 +12,7 @@
         <a href="queries.php">Generate Reports</a>
         <br>
         <a href="distribute.php">Distribute Vaccines</a>
+        <br>
+        <a href="number.php"> Number Vaccine</a>
 </body>
 </html>

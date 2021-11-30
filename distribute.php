@@ -7,6 +7,7 @@
     $name = $phone = $manufacturer = "";
     $trackingid = $age = 0;
     $status = "incomplete";
+    $dosetrackingid = rand(0, 100000);
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -46,7 +47,8 @@
 
         <br><br>
         trackingid: <input type="number" name="trackingid" value="<?php echo $trackingid; ?>">
-
+        <br><br>
+        dose <input type="text" name="dose" value="<?php echo $dose; ?>">
         <br><br>
         <input type="submit" name="submit" value="Distribute">
     </form>
@@ -120,11 +122,12 @@ $result = mysqli_query($conn, $sql);
 while ($row = mysqli_fetch_array($result)) {
     // echo $row[0] . " ";
     echo "Phone Number: " . $row[0]  . "   ";
-    echo "Dose: " . $row[1]  . "   ";
-    echo "Name: " . $row[2]  . "   ";
-    echo "Manufacturer: " . $row[3]  . "   ";
-    echo "Status: " . $row[4]  . "   ";
-    echo "Age: " . $row[5]  . "   ";
+    echo "Tracking Number: " . $row[1]  . "   ";
+    echo "Dose: " . $row[2]  . "   ";
+    echo "Name: " . $row[3]  . "   ";
+    echo "Manufacturer: " . $row[4]  . "   ";
+    echo "Status: " . $row[5]  . "   ";
+    echo "Age: " . $row[6]  . "   ";
     echo "<br>";
 }
 if (mysqli_num_rows($result) == 0) {
@@ -140,7 +143,7 @@ if (isset($_POST['submit'])) {
     $username = "root";
     $password = "mysql";
     $dbname = "vaccine";
-    
+
 
     // Create connection
     $conn = new mysqli($servername, $username, $password, $dbname);
@@ -149,22 +152,36 @@ if (isset($_POST['submit'])) {
         die("Connection failed: " . $conn->connect_error);
     }
 
+    echo "<br>";
+    echo "<br>";
     $sql = "UPDATE Customer Set status = 'complete' where Cell_num = '$phone';";
     if ($conn->query($sql) == TRUE) {
         echo "Updated successfully";
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
+    echo "<br>";
+    echo "<br>";
     $sql = "UPDATE Customer Set NumberOfDoses = NumberOfDoses + 1 where Cell_num = '$phone';";
     if ($conn->query($sql) === TRUE) {
-        echo "Updated successfully";
+        echo "Customer Doses";
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
-
+    echo "<br>";
+    echo "<br>";
     $sql = "UPDATE VaccineBatch Set Quantity = Quantity - 1 where TrackingNumber = '$trackingid';";
     if ($conn->query($sql) === TRUE) {
-        echo "Updated successfully";
+        echo "Updated Inventory Successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }echo $dosetrackingid;
+echo "<br>";
+    echo "<br>";
+    echo "<br>";
+    $sql = "UPDATE Customer Set TrackingNumber = '$dosetrackingid' where Cell_num = '$phone';";
+    if ($conn->query($sql) === TRUE) {
+        echo "Tracking Number Updated successfully";
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
