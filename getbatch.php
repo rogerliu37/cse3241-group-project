@@ -37,7 +37,7 @@
     $doseErr = $manufacturerErr = $dateErr = "";
     $manufacturer = "";
     $dose = 0;
-    $trackingid = rand(0, 100000);
+    $trackingid = 1000;
     $status = "incomplete";
     $date = "";
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -119,6 +119,12 @@
         // Check connection
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
+        }
+        $check_num_row='select count(*) FROM VaccineBatch';
+        $num_of_row=mysqli_query($conn, $check_num_row);
+        if($num_of_row!=0){
+            $max_tracking_id='select MAX(TrackingNumber) FROM VaccineBatch';
+            $trackingid=1+ mysqli_query($conn, $max_tracking_id);
         }
 
         $sql = "INSERT INTO VaccineBatch(TrackingNumber, Manufacturer, Quantity, ExpirationDate) 
